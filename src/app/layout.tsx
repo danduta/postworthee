@@ -1,11 +1,7 @@
 import { AuthProvider } from "@/context/AuthContext";
 import ThemeRegistry from "@/components/ThemeRegistry";
-import AppHeader from "@/components/AppHeader";
-import {
-  AppBarHeightProvider,
-  useAppBarHeight,
-} from "@/context/AppBarHeightContext";
-import { Container, CssBaseline } from "@mui/material";
+import { AppBarHeightProvider } from "@/context/AppBarHeightContext";
+import { CssBaseline } from "@mui/material";
 import AppContent from "@/components/AppContent";
 
 export default function RootLayout({

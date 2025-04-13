@@ -1,14 +1,7 @@
 "use client";
 
 import { useAppBarHeight } from "@/context/AppBarHeightContext";
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  Toolbar,
-} from "@mui/material";
+import { Box, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 const drawerWidth = 240; // optional: set width
