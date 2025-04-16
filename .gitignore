@@ -1,4 +1,9 @@
 node_modules
 .next/
+.history/
 *.zip
 .env.local
+.DS_Store
+.firebase*
+.firestore*
+postworthee-*.json

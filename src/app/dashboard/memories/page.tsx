@@ -3,9 +3,8 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Typography } from "@mui/material";
 
-export default function DashboardPage() {
+export default function MemoriesPage() {
 	const { user } = useAuth();
 	const router = useRouter();
 
@@ -13,13 +12,15 @@ export default function DashboardPage() {
 		if (!user) {
 			router.replace("/login");
 		}
+
+		router.replace("/dashboard/memories/overview");
 	}, [user, router]);
 
 	if (!user) return null;
 
 	return (
-		<Typography variant="h4" marginTop="2rem" gutterBottom align="center">
-			Welcome, {user.displayName}!
-		</Typography>
+		<>
+			<></>
+		</>
 	);
 }

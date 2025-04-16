@@ -1,22 +1,23 @@
 "use client";
 
 import { useAppBarHeight } from "@/context/AppBarHeightContext";
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import AppHeader from "./AppHeader";
+import Sidebar from "./Sidebar";
 
 export default function AppContent({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  const { height } = useAppBarHeight();
+	const { height } = useAppBarHeight();
+	const drawerWidth = "clamp(12rem, 20vw, 20rem)";
 
-  return (
-    <>
-      <AppHeader />
-      <Box sx={{ mt: `${height}px` }}>
-        <Container maxWidth="lg">{children}</Container>
-      </Box>
-    </>
-  );
+	return (
+		<>
+			<AppHeader />
+			<Sidebar />
+			<Box sx={{ mt: `${height}px`, ml: drawerWidth }}>{children}</Box>
+		</>
+	);
 }
