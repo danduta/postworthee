@@ -10,12 +10,10 @@ import {
 	ListItemText,
 } from "@mui/material";
 import SidebarMemoriesMenu from "./MemoriesSidebarMenu";
-import { useAppBarHeight } from "@/context/AppBarHeightContext";
 import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
 	const router = useRouter();
-	const { height } = useAppBarHeight();
 	const drawerWidth = "clamp(12rem, 20vw, 20rem)";
 
 	return (
@@ -27,8 +25,8 @@ export default function Sidebar() {
 				paper: {
 					sx: {
 						borderRadius: 0,
-						top: `${height}px`,
-						height: `calc(100% - ${height}px)`,
+						top: "var(--app-bar-height)",
+						height: `calc(100% - var(--app-bar-height))`,
 						transition: "top 0.2s ease, height 0.2s ease",
 						width: drawerWidth,
 					},

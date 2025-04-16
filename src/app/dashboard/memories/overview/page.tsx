@@ -8,15 +8,19 @@ import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
 import MemoryComponent from "../components/MemoryComponent";
+import { useRouter } from "next/navigation";
 
 export default function MemoriesOverviewPage() {
+	const auth = useAuth();
+	const router = useRouter();
+
 	const [memories, setMemories] = useState<Memory[]>([]);
 	const [loading, setLoading] = useState(true);
-	const auth = useAuth();
 
 	useEffect(() => {
 		const fetchMemories = async () => {
 			if (!auth.user) {
+				router.replace("/login");
 				return;
 			}
 
@@ -35,7 +39,7 @@ export default function MemoriesOverviewPage() {
 		};
 
 		fetchMemories();
-	}, [auth.user]);
+	}, [auth.user, router]);
 
 	return (
 		<>

@@ -1,18 +1,21 @@
-import React from "react";
-import { Button, Typography, Container } from "@mui/material";
+"use client";
 
-export default function Home() {
-  return (
-    <Container maxWidth="sm" style={{ textAlign: "center", marginTop: "2rem" }}>
-      <Typography variant="h4" gutterBottom>
-        Welcome to Postworthee
-      </Typography>
-      <Typography>
-        This is a skeleton using Material UI with Next.js and TypeScript.
-      </Typography>
-      <Button variant="contained" color="primary" style={{ marginTop: "1rem" }}>
-        Click Me
-      </Button>
-    </Container>
-  );
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+export default function HomePage() {
+	const { user } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!user) {
+			router.replace("/login");
+			return;
+		}
+
+		router.replace("/dashboard");
+	}, [router, user]);
+
+	return <></>;
 }

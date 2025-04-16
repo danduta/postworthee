@@ -1,4 +1,4 @@
-import ImageUpload from "@/components/ImageUpload";
+import ImageUpload from "@/app/components/ImageUpload";
 import { auth } from "@/lib/firebase";
 import { MemoryMetadata } from "@/models/memory";
 import { Box, TextField, Button, Alert, Paper } from "@mui/material";

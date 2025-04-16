@@ -4,6 +4,7 @@ node_modules
 *.zip
 .env.local
 .DS_Store
-.firebase*
-.firestore*
+firebase*
+firestore*
+.firebaserc
 postworthee-*.json

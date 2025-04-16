@@ -15,12 +15,4 @@ export default function MemoriesPage() {
 
 		router.replace("/dashboard/memories/overview");
 	}, [user, router]);
-
-	if (!user) return null;
-
-	return (
-		<>
-			<></>
-		</>
-	);
 }

@@ -52,6 +52,13 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiCssBaseline: {
+			styleOverrides: {
+				":root": {
+					"--app-bar-height": "4rem",
+				},
+			},
+		},
 	},
 });
 export default theme;
