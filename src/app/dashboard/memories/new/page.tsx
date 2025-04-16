@@ -1,6 +1,6 @@
 "use client";
 
-import CreateMemory from "../components/CreateMemory";
+import CreateMemory from "../../../../components/memories/CreateMemory";
 import { Typography } from "@mui/material";
 
 export default function MemoriesAddPage() {

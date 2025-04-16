@@ -1,4 +1,4 @@
-import AppContent from "@/app/components/AppContent";
+import AppContent from "@/components/AppContent";
 
 export default function DashboardLayout({
 	children,

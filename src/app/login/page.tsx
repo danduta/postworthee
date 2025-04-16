@@ -1,5 +1,5 @@
 "use client";
-import AuthPanel from "./components/AuthPanel";
+import AuthPanel from "../../components/login/AuthPanel";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";

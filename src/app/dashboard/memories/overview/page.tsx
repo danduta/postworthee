@@ -3,11 +3,11 @@
 import { Memory } from "@/models/memory";
 import { CircularProgress, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
-import NoMemories from "../components/NoMemories";
+import NoMemories from "../../../../components/memories/NoMemories";
 import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
-import MemoryComponent from "../components/MemoryComponent";
+import MemoryComponent from "../../../../components/memories/MemoryComponent";
 import { useRouter } from "next/navigation";
 
 export default function MemoriesOverviewPage() {

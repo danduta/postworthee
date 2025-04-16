@@ -1,5 +1,5 @@
 import { AuthProvider } from "@/context/AuthContext";
-import ThemeRegistry from "@/app/components/ThemeRegistry";
+import ThemeRegistry from "@/components/ThemeRegistry";
 import { CssBaseline } from "@mui/material";
 
 export default function RootLayout({
