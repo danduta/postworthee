@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MemoryMetadata } from "@/models/memory";
-import { userMemoryService } from "@/server/bootstrap";
-import { getUserFromRequest } from "@/lib/auth";
+import { getUserFromRequest } from "../../../lib/auth";
+import { MemoryMetadata } from "../../../models/memory";
+import { userMemoryService } from "../../../server/bootstrap";
 
 export async function POST(req: NextRequest) {
 	const user = await getUserFromRequest(req);

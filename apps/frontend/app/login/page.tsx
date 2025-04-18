@@ -1,10 +1,10 @@
 "use client";
 
 import AuthPanel from "../../components/login/AuthPanel";
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Typography, Box, Paper } from "@mui/material";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage() {
 	const { user } = useAuth();
