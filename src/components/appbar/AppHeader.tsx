@@ -2,6 +2,7 @@
 
 import {
 	AppBar,
+	Box,
 	Button,
 	IconButton,
 	Toolbar,
@@ -27,14 +28,18 @@ export default function AppHeader() {
 		<>
 			<AppBar position="fixed" color="default" elevation={0}>
 				<Toolbar sx={{ justifyContent: "space-between" }}>
-					<IconButton onClick={() => setOpen(true)}>
-						<MenuIcon />
-					</IconButton>
-					<Button href="/dashboard" disableTouchRipple>
-						<Typography variant="h1" color="inherit" noWrap>
-							PostWorthee
-						</Typography>
-					</Button>
+					<Box>
+						{!isLargeScreen && (
+							<IconButton onClick={() => setOpen(true)}>
+								<MenuIcon />
+							</IconButton>
+						)}
+						<Button href="/dashboard" disableTouchRipple>
+							<Typography variant="h1" color="inherit" noWrap>
+								PostWorthee
+							</Typography>
+						</Button>
+					</Box>
 					<UserMenu />
 				</Toolbar>
 			</AppBar>

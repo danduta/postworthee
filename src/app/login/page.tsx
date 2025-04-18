@@ -26,7 +26,8 @@ export default function LoginPage() {
 			<Paper
 				sx={{
 					p: "3rem",
-					maxWidth: "35rem",
+					m: "2rem",
+					maxWidth: "30rem",
 				}}
 			>
 				<Box
