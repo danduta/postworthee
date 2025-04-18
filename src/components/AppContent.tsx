@@ -1,8 +1,7 @@
 "use client";
 
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, useMediaQuery, useTheme } from "@mui/material";
 import AppHeader from "./appbar/AppHeader";
-import Sidebar from "./sidebar/Sidebar";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +13,8 @@ export default function AppContent({
 }) {
 	const { user } = useAuth();
 	const router = useRouter();
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up("md"));
 	const drawerWidth = "clamp(12rem, 20vw, 20rem)";
 	const [loading, setLoading] = useState(true);
 
@@ -41,14 +42,13 @@ export default function AppContent({
 			{!loading && (
 				<>
 					<AppHeader />
-					<Sidebar />
 					<Box
 						minHeight="100vh - var(--app-bar-height)"
 						display="flex"
 						justifyContent="center"
 						alignItems="center"
 						mt="var(--app-bar-height)"
-						ml={drawerWidth}
+						ml={isLargeScreen ? drawerWidth : 0}
 						padding="3rem"
 					>
 						{children}

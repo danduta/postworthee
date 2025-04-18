@@ -1,7 +1,7 @@
 "use client";
 
 import { Memory } from "@/models/memory";
-import { CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import NoMemories from "../../../../components/memories/NoMemories";
 import { db } from "@/lib/firebase";
@@ -30,6 +30,7 @@ export default function MemoriesOverviewPage() {
 				auth.user.uid,
 				"memories"
 			);
+
 			const response = await getDocs(collectionRef);
 			const memories = response.docs
 				.map((doc) => doc.data() as Memory)
@@ -48,14 +49,22 @@ export default function MemoriesOverviewPage() {
 			) : memories.length > 0 ? (
 				<Grid
 					container
-					columns={4}
+					columns={{ md: 4, sm: 2, xs: 1 }}
 					justifyContent="center"
 					alignItems="center"
-					gap="2em"
+					spacing={2}
 				>
 					{memories.map((memory) => (
 						<Grid key={memory.id} size={1}>
-							<MemoryComponent key={memory.id} value={memory} />
+							<Box
+								sx={{
+									width: "100%",
+									height: "100%",
+									aspectRatio: "1 / 1",
+								}}
+							>
+								<MemoryComponent value={memory} />
+							</Box>
 						</Grid>
 					))}
 				</Grid>

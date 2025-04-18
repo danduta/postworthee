@@ -1,22 +1,80 @@
 "use client";
 import { Memory } from "@/models/memory";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import {
+	Box,
+	CircularProgress,
+	ImageList,
+	ImageListItem,
+	Paper,
+	Typography,
+} from "@mui/material";
+import { useState, useEffect } from "react";
 
-function SquareImage({ url }: { url: string }) {
+function SquareImage({
+	url,
+	aspectRatio = 1, // optional: pass aspectRatio like 2 (wider) or 0.75 (taller)
+}: {
+	url: string;
+	aspectRatio?: number;
+}) {
+	const [loaded, setLoaded] = useState(false);
+
+	useEffect(() => {
+		const img = new Image();
+		img.src = url;
+		img.onload = () => setLoaded(true);
+		img.onerror = () => setLoaded(true); // optional: stop spinner on error too
+	}, [url]);
+
 	return (
 		<Box
-			component="img"
-			src={url}
-			loading="lazy"
 			sx={{
+				position: "relative",
 				width: "100%",
-				height: "100%",
-				objectFit: "cover",
-				display: "block",
 				borderRadius: 1,
+				overflow: "hidden",
+				aspectRatio: aspectRatio,
 			}}
-		/>
+		>
+			{!loaded && (
+				<Box
+					sx={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
+						zIndex: 1,
+					}}
+				>
+					<CircularProgress size={24} />
+				</Box>
+			)}
+			{loaded && (
+				<Box
+					component="img"
+					src={url}
+					loading="lazy"
+					sx={{
+						width: "100%",
+						height: "100%",
+						objectFit: "cover",
+						display: "block",
+						borderRadius: 1,
+						overflow: "hidden",
+					}}
+				/>
+			)}
+		</Box>
 	);
+}
+
+function shuffleArray<T>(array: T[]): T[] {
+	const shuffled = [...array];
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
 }
 
 interface MemoryComponentProps {
@@ -26,43 +84,66 @@ interface MemoryComponentProps {
 export default function MemoryComponent({
 	value: memory,
 }: MemoryComponentProps) {
-	const photos = memory.photo_urls?.slice(0, 4);
+	const photos = shuffleArray(memory.photo_urls ?? []).slice(0, 4);
 	const count = photos?.length || 0;
 
-	const gridTemplate = () => {
+	const imgTemplate = () => {
 		switch (count) {
 			case 1:
-				return [12]; // full height
+				// 1 row 1 col
+				return [[2, 2]];
 			case 2:
-				return [6, 6]; // full height
+				// 1 row 2 col
+				return [
+					[1, 2],
+					[1, 2],
+				];
 			case 3:
-				return [6, 3, 3]; // full height
+				// 2 col 2 row
+				return [
+					[2, 1],
+					[1, 1],
+					[1, 1],
+				];
 			default:
-				return [6, 6, 6, 6]; // half height
+				// 2 col 2 row
+				return [
+					[1, 1],
+					[1, 1],
+					[1, 1],
+					[1, 1],
+				];
 		}
 	};
 
 	return (
 		<Paper
 			sx={{
-				width: "clamp(10rem, 100%, 40rem)",
 				padding: "1em",
+				width: "100%",
+				height: "100%",
+				display: "flex",
+				flexDirection: "column",
 			}}
 		>
-			<Grid container spacing={0.5} sx={{ height: "10rem" }}>
-				{photos.map((url, index) => (
-					<Grid
-						size={{ xs: gridTemplate()[index] }}
-						key={index}
-						sx={{ height: count === 4 ? "50%" : "100%" }}
-					>
-						<SquareImage url={url} />
-					</Grid>
-				))}
-			</Grid>
-			<Typography mt="1em" variant="h3">
-				{memory.title}
-			</Typography>
+			<ImageList cols={2} sx={{ flexGrow: 1, overflow: "hidden" }}>
+				{photos.map((url, index) => {
+					const [rows, cols] = imgTemplate()[index];
+					return (
+						<ImageListItem
+							key={index}
+							rows={rows}
+							cols={cols}
+							sx={{
+								overflow: "hidden",
+							}}
+						>
+							<SquareImage url={url} aspectRatio={cols / rows} />
+						</ImageListItem>
+					);
+				})}
+			</ImageList>
+			<Typography>{memory.title}</Typography>
 		</Paper>
 	);
 }
