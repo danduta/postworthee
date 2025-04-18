@@ -18,7 +18,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+const googleAuthProvider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
 if (process.env.NEXT_PUBLIC_EMULATOR) {
@@ -26,4 +26,4 @@ if (process.env.NEXT_PUBLIC_EMULATOR) {
 	connectFirestoreEmulator(db, "127.0.0.1", 9048);
 }
 
-export { auth, provider, db };
+export { auth, googleAuthProvider as provider, db };

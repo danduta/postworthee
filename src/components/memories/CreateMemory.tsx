@@ -97,7 +97,7 @@ export default function CreateMemory(props: PropsWithChildren) {
 			</Box>
 			{error && (
 				<Alert severity="error" sx={{ mt: "1em" }}>
-					An error occurred while uploading your photos.
+					{error}
 				</Alert>
 			)}
 		</Paper>

@@ -2,18 +2,18 @@
 import { Memory } from "@/models/memory";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 
-function SquareImage({ url, index }: { url: string; index: number }) {
+function SquareImage({ url }: { url: string }) {
 	return (
 		<Box
-			key={index}
 			component="img"
 			src={url}
 			loading="lazy"
 			sx={{
 				width: "100%",
-				aspectRatio: "1 / 1",
+				height: "100%",
 				objectFit: "cover",
 				display: "block",
+				borderRadius: 1,
 			}}
 		/>
 	);
@@ -26,23 +26,43 @@ interface MemoryComponentProps {
 export default function MemoryComponent({
 	value: memory,
 }: MemoryComponentProps) {
+	const photos = memory.photo_urls?.slice(0, 4);
+	const count = photos?.length || 0;
+
+	const gridTemplate = () => {
+		switch (count) {
+			case 1:
+				return [12]; // full height
+			case 2:
+				return [6, 6]; // full height
+			case 3:
+				return [6, 3, 3]; // full height
+			default:
+				return [6, 6, 6, 6]; // half height
+		}
+	};
+
 	return (
 		<Paper
 			sx={{
-				width: "clamp(10rem, auto, 20rem)",
-				padding: "3em",
+				width: "clamp(10rem, 100%, 40rem)",
+				padding: "1em",
 			}}
 		>
-			<Typography variant="h3" gutterBottom>
-				{memory.title}
-			</Typography>
-			<Grid container columns={2}>
-				{memory.photo_urls?.slice(0, 4).map((url, index) => (
-					<Grid size={1} key={index}>
-						<SquareImage key={index} url={url} index={index} />
+			<Grid container spacing={0.5} sx={{ height: "10rem" }}>
+				{photos.map((url, index) => (
+					<Grid
+						size={{ xs: gridTemplate()[index] }}
+						key={index}
+						sx={{ height: count === 4 ? "50%" : "100%" }}
+					>
+						<SquareImage url={url} />
 					</Grid>
 				))}
 			</Grid>
+			<Typography mt="1em" variant="h3">
+				{memory.title}
+			</Typography>
 		</Paper>
 	);
 }

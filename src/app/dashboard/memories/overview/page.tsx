@@ -46,7 +46,13 @@ export default function MemoriesOverviewPage() {
 			{loading ? (
 				<CircularProgress />
 			) : memories.length > 0 ? (
-				<Grid container columns={10} sx={{ width: "100%" }}>
+				<Grid
+					container
+					columns={4}
+					justifyContent="center"
+					alignItems="center"
+					gap="2em"
+				>
 					{memories.map((memory) => (
 						<Grid key={memory.id} size={1}>
 							<MemoryComponent key={memory.id} value={memory} />

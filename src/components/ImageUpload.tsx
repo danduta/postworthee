@@ -12,6 +12,7 @@ export default function ImageUpload({ onFilesSelected }: FileUploadProps) {
 		if (event.target.files) {
 			onFilesSelected(Array.from(event.target.files));
 			setFileCount(event.target.files.length);
+			return;
 		}
 	};
 

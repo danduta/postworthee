@@ -42,7 +42,15 @@ export default function AppContent({
 				<>
 					<AppHeader />
 					<Sidebar />
-					<Box sx={{ mt: "var(--app-bar-height)", ml: drawerWidth }}>
+					<Box
+						minHeight="100vh - var(--app-bar-height)"
+						display="flex"
+						justifyContent="center"
+						alignItems="center"
+						mt="var(--app-bar-height)"
+						ml={drawerWidth}
+						padding="3rem"
+					>
 						{children}
 					</Box>
 				</>

@@ -1,9 +1,10 @@
 "use client";
+
 import AuthPanel from "../../components/login/AuthPanel";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Typography, Box, Paper } from "@mui/material";
 
 export default function LoginPage() {
 	const { user } = useAuth();
@@ -16,18 +17,30 @@ export default function LoginPage() {
 	}, [user, router]);
 
 	return (
-		<Container maxWidth="sm" sx={{ mt: 10 }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				gap={4}
+		<Box
+			minHeight="100vh"
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+		>
+			<Paper
+				sx={{
+					p: "3rem",
+					maxWidth: "35rem",
+				}}
 			>
-				<Typography variant="h4" fontWeight="bold">
-					Sign in to PostWorthee
-				</Typography>
-				<AuthPanel />
-			</Box>
-		</Container>
+				<Box
+					display="flex"
+					flexDirection="column"
+					alignItems="center"
+					gap="1rem"
+				>
+					<Typography variant="h3" fontWeight="bold" mb="3rem">
+						Sign in to PostWorthee
+					</Typography>
+					<AuthPanel />
+				</Box>
+			</Paper>
+		</Box>
 	);
 }

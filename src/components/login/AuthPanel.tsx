@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { Button, Avatar, Typography, Box, Stack } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import LoginForm from "./LoginForm";
 
 export default function AuthPanel() {
 	const [user, setUser] = useState<User | null>(null);
@@ -58,12 +59,18 @@ export default function AuthPanel() {
 	}
 
 	return (
-		<Button
-			variant="contained"
-			startIcon={<GoogleIcon />}
-			onClick={handleSignIn}
-		>
-			Sign in with Google
-		</Button>
+		<>
+			<LoginForm />
+			<Button
+				sx={{
+					mt: "1rem",
+				}}
+				variant="contained"
+				startIcon={<GoogleIcon />}
+				onClick={handleSignIn}
+			>
+				Sign in with Google
+			</Button>
+		</>
 	);
 }
