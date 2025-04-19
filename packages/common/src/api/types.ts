@@ -1,9 +1,21 @@
-import { MemoryMetadata, Memory } from "../models/memory";
+import { Memory } from "../models/memory";
 
-export interface CreateMemoryRequest {
+export type Empty = Record<never, never>;
+type ErrorResponse = { error: string };
+type SuccessResponse<T> = { data: T };
+
+export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+export type CreateMemoryRequest = {
 	memory_metadata: string;
-}
+};
 
-export interface CreateMemoryResponse {
+export type CreateMemoryResponse = ApiResponse<{
 	memory: Memory;
-}
+}>;
+
+export type ListMemoriesRequest = {};
+
+export type ListMemoriesResponse = ApiResponse<{
+	memories: Memory[];
+}>;

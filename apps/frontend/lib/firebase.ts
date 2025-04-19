@@ -4,7 +4,6 @@ import {
 	getAuth,
 	GoogleAuthProvider,
 } from "firebase/auth";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -19,11 +18,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
-const db = getFirestore(app);
 
 if (process.env.NEXT_PUBLIC_EMULATOR) {
 	connectAuthEmulator(auth, "http://127.0.0.1:9047");
-	connectFirestoreEmulator(db, "127.0.0.1", 9048);
 }
 
-export { auth, googleAuthProvider as provider, db };
+export { auth, googleAuthProvider as provider };

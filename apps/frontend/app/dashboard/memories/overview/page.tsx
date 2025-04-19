@@ -1,10 +1,9 @@
 "use client";
 
-import { Memory } from "@postworthee/common"
+import { ListMemoriesResponse, Memory } from "@postworthee/common";
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import NoMemories from "../../../../components/memories/NoMemories";
-import { db } from "@/lib/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useAuth } from "@/context/AuthContext";
 import MemoryComponent from "../../../../components/memories/MemoryComponent";
@@ -24,19 +23,32 @@ export default function MemoriesOverviewPage() {
 				return;
 			}
 
-			const collectionRef = collection(
-				db,
-				"users",
-				auth.user.uid,
-				"memories"
-			);
+			try {
+				const res = await fetch(
+					"http://localhost:3001/api/memories/list",
+					{
+						method: "GET",
+						headers: {
+							Authorization: `Bearer ${await auth.user.getIdToken()}`,
+						},
+					}
+				);
 
-			const response = await getDocs(collectionRef);
-			const memories = response.docs
-				.map((doc) => doc.data() as Memory)
-				.sort((a, b) => a.created - b.created);
-			setMemories(memories);
-			setLoading(false);
+				if (!res.ok) throw new Error("Failed to get memories");
+				const resJson: ListMemoriesResponse = await res.json();
+				if ("error" in resJson)
+					throw new Error("Failed to get memories");
+
+				setMemories(resJson.data.memories);
+			} catch (err: unknown) {
+				console.log(err);
+				if (!(err instanceof Error)) {
+					console.error("Unkown error encountered", err);
+				} else {
+				}
+			} finally {
+				setLoading(false);
+			}
 		};
 
 		fetchMemories();

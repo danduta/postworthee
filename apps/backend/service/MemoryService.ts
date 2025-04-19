@@ -1,5 +1,6 @@
 import {
 	CreateMemoryResponse,
+	ListMemoriesResponse,
 	Memory,
 	MemoryMetadata,
 } from "@postworthee/common";
@@ -50,7 +51,27 @@ export class MemoryService {
 			.update({ ...memory });
 
 		return {
-			memory,
+			data: {
+				memory,
+			},
+		};
+	}
+
+	public async getMemories(request: {
+		user_id: string;
+	}): Promise<ListMemoriesResponse> {
+		const collectionRef = getDb()
+			.collection("users/")
+			.doc(request.user_id)
+			.collection("memories");
+
+		const response = await collectionRef.get();
+		return {
+			data: {
+				memories: response.docs
+					.map((doc) => doc.data() as Memory)
+					.sort((a, b) => a.created - b.created),
+			},
 		};
 	}
 }

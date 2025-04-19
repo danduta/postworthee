@@ -1,15 +1,25 @@
 import express, { Request, RequestHandler } from "express";
 import multer from "multer";
 import { bootstrapControllers } from "../bootstrap";
-import { ApiResponse, Empty } from "../lib/types";
-import { CreateMemoryRequest, CreateMemoryResponse } from "@postworthee/common";
+import {
+	CreateMemoryRequest,
+	CreateMemoryResponse,
+	Empty,
+	ListMemoriesRequest,
+	ListMemoriesResponse,
+} from "@postworthee/common";
 
 export type CreateMemoryHandler = RequestHandler<
 	Empty,
-	ApiResponse<CreateMemoryResponse>,
+	CreateMemoryResponse,
 	CreateMemoryRequest
 >;
 
+export type LsitMemoriesHandler = RequestHandler<
+	Empty,
+	ListMemoriesResponse,
+	ListMemoriesRequest
+>;
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 const { memoryController } = bootstrapControllers();
@@ -17,5 +27,7 @@ const { memoryController } = bootstrapControllers();
 router.post("/create", upload.array("photos"), (req, res, next) =>
 	memoryController.create(req, res, next)
 );
+
+router.get("/list", (req, res, next) => memoryController.list(req, res, next));
 
 export default router;
