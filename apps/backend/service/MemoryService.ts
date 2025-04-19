@@ -1,7 +1,11 @@
-import { Memory, MemoryMetadata } from "@/models/memory";
-import { MemoryRepository } from "@/server/repository/MemoryRepository";
+import {
+	CreateMemoryResponse,
+	Memory,
+	MemoryMetadata,
+} from "@postworthee/common";
+import { MemoryRepository } from "../repository/MemoryRepository";
 import { PhotoRepository, UploadedPhotos } from "../repository/PhotoRepository";
-import { db } from "@/lib/firebase-admin";
+import { getDb } from "../lib/firebase-admin";
 
 export class MemoryService {
 	constructor(
@@ -9,9 +13,11 @@ export class MemoryService {
 		private readonly photoRepo: PhotoRepository
 	) {}
 
-	public async createMemory(
-		request: CreateMemoryRequest
-	): Promise<CreateMemoryResponse> {
+	public async createMemory(request: {
+		user_id: string;
+		memory_metadata: MemoryMetadata;
+		photos: Express.Multer.File[];
+	}): Promise<CreateMemoryResponse> {
 		console.log(request);
 		const memoryBase = {
 			user_id: request.user_id,
@@ -19,7 +25,7 @@ export class MemoryService {
 			created: Date.now(),
 		};
 
-		const doc = await db
+		const doc = await getDb()
 			.collection("users/")
 			.doc(request.user_id)
 			.collection("memories")
@@ -36,7 +42,7 @@ export class MemoryService {
 			photo_urls: uploadResult.urls,
 		};
 
-		await db
+		await getDb()
 			.collection("users/")
 			.doc(request.user_id)
 			.collection("memories")
@@ -47,14 +53,4 @@ export class MemoryService {
 			memory,
 		};
 	}
-}
-
-export interface CreateMemoryRequest {
-	memory_metadata: MemoryMetadata;
-	user_id: string;
-	photos: File[];
-}
-
-export interface CreateMemoryResponse {
-	memory: Memory;
 }

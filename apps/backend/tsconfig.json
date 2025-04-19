@@ -1,11 +1,21 @@
 {
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"target": "ES2020",
 		"module": "CommonJS",
 		"rootDir": ".",
 		"outDir": "dist",
 		"esModuleInterop": true,
-		"strict": true
+		"strict": true,
+		"resolveJsonModule": true
 	},
+	"paths": {
+		"@/lib/*": ["lib/*"],
+		"@/repository/*": ["repository/*"],
+		"@/controller/*": ["controller/*"],
+		"@/service/*": ["service/*"],
+		"@/routes/*": ["routes/*"]
+	},
+	"references": [{ "path": "../../packages/common" }],
 	"include": ["**/*.ts"]
 }

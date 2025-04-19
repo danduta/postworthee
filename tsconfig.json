@@ -1,0 +1,22 @@
+{
+	"files": [],
+	"references": [
+		{ "path": "packages/common" },
+		{ "path": "apps/frontend" },
+		{ "path": "apps/backend" }
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@postworthee/common": ["packages/common/src"]
+		},
+		"moduleResolution": "node",
+		"target": "es2020",
+		"module": "esnext",
+		"lib": ["dom", "esnext"],
+		"skipLibCheck": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"strict": true
+	}
+}

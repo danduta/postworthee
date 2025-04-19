@@ -9,9 +9,9 @@
 		"**/*.map": {
 			"when": "$(basename)"
 		},
-		"**/*.d.ts": {
-			"when": "$(basename).ts"
-		},
+		// "**/*.d.ts": {
+		// 	"when": "$(basename).ts"
+		// },
 		"**/*.js": {
 			"when": "$(basename).ts"
 		},

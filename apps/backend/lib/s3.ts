@@ -28,9 +28,9 @@ async function ensureBucketExists(bucket: string) {
 		console.log(`✅ Bucket "${bucket}" exists`);
 	} catch (err: any) {
 		if (err.name === "NotFound" || err.$metadata?.httpStatusCode === 404) {
-			console.log(`Bucket "${bucket}" not found. Creating...`);
+			console.log(`⚠️ Bucket "${bucket}" not found. Creating...`);
 			await s3.send(new CreateBucketCommand({ Bucket: bucket }));
-			console.log(`Bucket "${bucket}" created`);
+			console.log(`✅ Bucket "${bucket}" created`);
 		} else {
 			throw err;
 		}

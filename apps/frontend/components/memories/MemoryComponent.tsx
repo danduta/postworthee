@@ -1,5 +1,5 @@
 "use client";
-import { Memory } from "@/models/memory";
+import { Memory } from "@postworthee/common";
 import {
 	Box,
 	CircularProgress,

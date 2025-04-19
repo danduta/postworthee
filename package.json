@@ -7,7 +7,8 @@
 		"packages/*"
 	],
 	"scripts": {
-		"dev": "concurrently --names \"frontend,backend\" -c \"cyan,magenta\" \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\""
+		"dev": "concurrently --names \"frontend,backend\" -c \"cyan,magenta\" \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
+		"build": "pnpm --filter @postworthee/common build && pnpm -r build"
 	},
 	"devDependencies": {
 		"concurrently": "^8.0.1"

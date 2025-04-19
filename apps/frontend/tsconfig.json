@@ -1,11 +1,11 @@
 {
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"target": "ES2017",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
 		"strict": true,
-		"noEmit": true,
 		"esModuleInterop": true,
 		"module": "esnext",
 		"moduleResolution": "bundler",
@@ -18,19 +18,22 @@
 				"name": "next"
 			}
 		],
+		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./*"]
+			"@/components/*": ["components/*"],
+			"@/context/*": ["context/*"],
+			"@/lib/*": ["lib/*"]
 		}
 	},
 	"include": [
 		"next-env.d.ts",
 		".next/types/**/*.ts",
 		"lib/theme.ts",
-		"app/pages",
+		"app",
 		"components",
 		"context",
-		"models",
-		"server"
+		"models"
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules"],
+	"references": [{ "path": "../../packages/common" }]
 }

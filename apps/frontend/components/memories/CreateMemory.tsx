@@ -1,6 +1,6 @@
 import ImageUpload from "@/components/ImageUpload";
 import { auth } from "@/lib/firebase";
-import { MemoryMetadata } from "@/models/memory";
+import { MemoryMetadata } from "@postworthee/common";
 import { Box, TextField, Button, Alert, Paper } from "@mui/material";
 import { PropsWithChildren, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,10 @@ export default function CreateMemory(props: PropsWithChildren) {
 	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = async () => {
+		if (!auth.currentUser) {
+			return;
+		}
+
 		setLoading(true);
 		setError(null);
 
@@ -22,19 +26,22 @@ export default function CreateMemory(props: PropsWithChildren) {
 		};
 
 		const formData = new FormData();
-		formData.append("metadata", JSON.stringify(metadata));
+		formData.append("memory_metadata", JSON.stringify(metadata));
 		files.forEach((file) => {
-			formData.append("file", file);
+			formData.append("photos", file);
 		});
 
 		try {
-			const res = await fetch("/api/memories", {
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-				body: formData,
-			});
+			const res = await fetch(
+				"http://localhost:3001/api/memories/create",
+				{
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+					body: formData,
+				}
+			);
 
 			if (!res.ok) throw new Error("Failed to upload memory");
 			router.push(`/dashboard/memories/overview`);

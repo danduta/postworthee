@@ -1,6 +1,6 @@
 "use client";
 
-import { Memory } from "@/models/memory";
+import { Memory } from "@postworthee/common"
 import { Box, CircularProgress, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import NoMemories from "../../../../components/memories/NoMemories";
