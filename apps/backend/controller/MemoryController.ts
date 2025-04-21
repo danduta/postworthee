@@ -25,7 +25,6 @@ export class MemoryController {
 			});
 			res.status(201).json(result);
 		} catch (err: any) {
-			console.error
 			res.status(500).json({ error: err.message });
 		}
 	};

@@ -4,9 +4,8 @@ import {
 	Memory,
 	MemoryMetadata,
 } from "@postworthee/common";
-import { MemoryRepository } from "../repository/MemoryRepository";
-import { PhotoRepository, UploadedPhotos } from "../repository/PhotoRepository";
-import { getDb } from "../lib/firebase-admin";
+import { MemoryRepository } from "./repository/MemoryRepository";
+import { PhotoRepository, UploadedPhotos } from "./repository/PhotoRepository";
 
 export class MemoryService {
 	constructor(
@@ -19,39 +18,30 @@ export class MemoryService {
 		memory_metadata: MemoryMetadata;
 		photos: Express.Multer.File[];
 	}): Promise<CreateMemoryResponse> {
-		const memoryBase = {
-			user_id: request.user_id,
-			title: request.memory_metadata.title,
-			created: Date.now(),
-		};
+		const memory = await this.memoryRepo.createMemory({
+			userId: request.user_id,
+			metadata: request.memory_metadata,
+		});
 
-		const doc = await getDb()
-			.collection("users/")
-			.doc(request.user_id)
-			.collection("memories")
-			.add(memoryBase);
+		if (!memory) {
+			throw new Error("Failed to create new memory");
+		}
 
 		const uploadResult: UploadedPhotos = await this.photoRepo.uploadPhotos(
 			request.photos,
-			doc.id
+			memory.id,
+			request.user_id
 		);
-
-		const memory: Memory = {
-			...memoryBase,
-			id: doc.id,
-			photo_urls: uploadResult.urls,
-		};
-
-		await getDb()
-			.collection("users/")
-			.doc(request.user_id)
-			.collection("memories")
-			.doc(doc.id)
-			.update({ ...memory });
 
 		return {
 			data: {
-				memory,
+				memory: {
+					created: memory.createdAt.getTime(),
+					id: memory.id,
+					user_id: memory.userId,
+					photo_urls: uploadResult.urls,
+					memory_metadata: memory.metadata,
+				},
 			},
 		};
 	}
@@ -59,17 +49,24 @@ export class MemoryService {
 	public async getMemories(request: {
 		user_id: string;
 	}): Promise<ListMemoriesResponse> {
-		const collectionRef = getDb()
-			.collection("users/")
-			.doc(request.user_id)
-			.collection("memories");
+		const memories = await this.memoryRepo.getMemoriesForUser(
+			request.user_id
+		);
+		const promises = memories.map(async (memoryRow) => ({
+			created: memoryRow.createdAt.getTime(),
+			id: memoryRow.id,
+			memory_metadata: memoryRow.metadata,
+			user_id: memoryRow.userId,
+			photo_urls: (
+				await this.photoRepo.getPhotosByMemory(memoryRow.id)
+			).map((photoRow) => photoRow.url),
+		}));
 
-		const response = await collectionRef.get();
+		const result = await Promise.all(promises);
+
 		return {
 			data: {
-				memories: response.docs
-					.map((doc) => doc.data() as Memory)
-					.sort((a, b) => a.created - b.created),
+				memories: result,
 			},
 		};
 	}

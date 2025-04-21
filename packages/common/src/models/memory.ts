@@ -5,11 +5,12 @@ export const MemoryMetadataSchema = z.object({
 });
 export type MemoryMetadata = z.infer<typeof MemoryMetadataSchema>;
 
-export const MemorySchema = MemoryMetadataSchema.extend({
+export const MemorySchema = z.object({
 	id: z.string(),
 	user_id: z.string(),
 	created: z.number(),
 	photo_urls: z.array(z.string().url()),
+	memory_metadata: MemoryMetadataSchema,
 });
 
 export type Memory = z.infer<typeof MemorySchema>;

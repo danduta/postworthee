@@ -84,6 +84,7 @@ interface MemoryComponentProps {
 export default function MemoryComponent({
 	value: memory,
 }: MemoryComponentProps) {
+	// console.log(memory.photo_urls);
 	const photos = shuffleArray(memory.photo_urls ?? []).slice(0, 4);
 	const count = photos?.length || 0;
 
@@ -143,7 +144,7 @@ export default function MemoryComponent({
 					);
 				})}
 			</ImageList>
-			<Typography>{memory.title}</Typography>
+			<Typography>{memory.memory_metadata.title}</Typography>
 		</Paper>
 	);
 }

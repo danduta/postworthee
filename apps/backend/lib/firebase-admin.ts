@@ -1,9 +1,7 @@
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { Auth, getAuth } from "firebase-admin/auth";
-import { getFirestore } from "firebase-admin/firestore";
 import serviceAccount from "../postworthee-82319432cba0.json";
 
-let dbInstance: FirebaseFirestore.Firestore | null = null;
 let authInstance: Auth | null = null;
 
 export const initializeFirebaseAdmin = () => {
@@ -30,18 +28,8 @@ export const initializeFirebaseAdmin = () => {
 			}),
 		});
 
-		dbInstance = getFirestore(app);
 		authInstance = getAuth(app);
 	}
-};
-
-export const getDb = () => {
-	if (!dbInstance) {
-		throw new Error(
-			"Firebase Admin not initialized. Call initializeFirebaseAdmin() first."
-		);
-	}
-	return dbInstance;
 };
 
 export const authenticateUser = (token: string | undefined) => {
