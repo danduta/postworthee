@@ -19,7 +19,6 @@ export class MemoryService {
 		memory_metadata: MemoryMetadata;
 		photos: Express.Multer.File[];
 	}): Promise<CreateMemoryResponse> {
-		console.log(request);
 		const memoryBase = {
 			user_id: request.user_id,
 			title: request.memory_metadata.title,

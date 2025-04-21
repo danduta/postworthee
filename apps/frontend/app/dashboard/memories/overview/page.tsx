@@ -44,7 +44,6 @@ export default function MemoriesOverviewPage() {
 				console.log(err);
 				if (!(err instanceof Error)) {
 					console.error("Unkown error encountered", err);
-				} else {
 				}
 			} finally {
 				setLoading(false);

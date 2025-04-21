@@ -1,10 +1,15 @@
-export interface Memory extends MemoryMetadata {
-	id: string;
-	user_id: string;
-	created: number;
-	photo_urls: string[];
-}
+import { z } from "zod";
 
-export type MemoryMetadata = {
-	title: string;
-};
+export const MemoryMetadataSchema = z.object({
+	title: z.string().min(1),
+});
+export type MemoryMetadata = z.infer<typeof MemoryMetadataSchema>;
+
+export const MemorySchema = MemoryMetadataSchema.extend({
+	id: z.string(),
+	user_id: z.string(),
+	created: z.number(),
+	photo_urls: z.array(z.string().url()),
+});
+
+export type Memory = z.infer<typeof MemorySchema>;

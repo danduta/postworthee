@@ -1,21 +1,15 @@
-import { Memory } from "../models/memory";
+import { z } from "zod";
+import {
+	CreateMemoryRequestSchema,
+	CreateMemoryResponseSchema,
+	ListMemoriesRequestSchema,
+	ListMemoriesResponseSchema,
+} from "./schemas";
 
 export type Empty = Record<never, never>;
-type ErrorResponse = { error: string };
-type SuccessResponse<T> = { data: T };
 
-export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
+export type CreateMemoryRequest = z.infer<typeof CreateMemoryRequestSchema>;
+export type CreateMemoryResponse = z.infer<typeof CreateMemoryResponseSchema>;
 
-export type CreateMemoryRequest = {
-	memory_metadata: string;
-};
-
-export type CreateMemoryResponse = ApiResponse<{
-	memory: Memory;
-}>;
-
-export type ListMemoriesRequest = {};
-
-export type ListMemoriesResponse = ApiResponse<{
-	memories: Memory[];
-}>;
+export type ListMemoriesRequest = z.infer<typeof ListMemoriesRequestSchema>;
+export type ListMemoriesResponse = z.infer<typeof ListMemoriesResponseSchema>;
